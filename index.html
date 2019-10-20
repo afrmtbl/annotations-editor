@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+	<link rel="stylesheet" type="text/css" href="css/index.css">
+	<link rel="stylesheet" type="text/css" href="css/prop_editor.css">
+	<link rel="stylesheet" type="text/css" href="annotationlib/dist/AnnotationRenderer.css">
+	<title>Annotations Editor</title>
+</head>
+<body>
+
+	<main>
+		<section id="video-container">
+			<div id="vid-cont">
+				<video id="vid" src="videos/bunny.mp4" width="768" height="432" controls></video>
+			</div>
+		</section>
+
+		<section id="props-editor">
+			
+			<form id="options-form" onsubmit="javascript:void(0)">
+				
+				<section class="option">
+					<label class="option-label" for="annotation-code">Annotation Code</label>
+					<textarea id="annotation-code" name="annotation-code" class="option-input" readonly wrap="off"></textarea>
+				</section>
+
+				<section class="option">
+					<label class="option-label" for="annotation-type">Annotation Type</label>
+					<select id="annotation-type" class="option-input" name="type" value="note">
+	                    <option value="note">Note</option>
+						<option value="speech">Speech bubble</option>
+	                    <option value="title">Title</option>
+	                    <option value="highlight">Spotlight</option>
+	                    <option value="label">Label</option>
+					</select>
+				</section>
+
+				<section id="time-range" class="option">
+					<label class="option-label" for="time-start">Time Start - mm:ss</label>
+					<input id="time-start" class="option-input" name="timeStart" type="text" pattern="[0-9]{0,3}:[0-5][0-9]" placeholder="example: 0:06" maxlength="6">
+					<label class="option-label" for="time-end">Time End - mm:ss</label>
+					<input id="time-end" class="option-input" name="timeEnd" type="text" pattern="[0-9]{0,3}:[0-5][0-9]" placeholder="example: 2:53" maxlength="6">
+				</section>
+
+				<section class="option">
+					<label class="option-label" for="x-pos">X Position</label>
+					<input id="x-pos" class="option-input" name="x" type="range" min="0" max="100" step="1">
+
+					<label class="option-label" for="y-pos">Y Position</label>
+					<input id="y-pos" class="option-input" name="y" type="range" min="0" max="100" step="1">
+				</section>
+
+				<section id="annotation-size" class="option">
+					<label class="option-label" for="an-width">Annotation Width</label>
+					<input id="an-width" class="option-input" name="width" type="range" min="0" max="100" step="1">
+
+					<label class="option-label" for="an-height">Annotation Height</label>
+					<input id="an-height" class="option-input" name="height" type="range" min="0" max="100" step="1">
+				</section>
+
+				<section class="option">
+					<label class="option-label" for="annotation-text">Annotation Text</label>
+					<textarea id="annotation-text" name="text" class="option-input"></textarea>
+
+					<label class="option-label" for="text-size">Text Size</label>
+					<input id="text-size" class="option-input" name="textSize" type="range" min="0" max="100" step="1">
+
+				</section>
+
+				<section id="bg-fg-colors" class="option">
+					<div class="fg-bg-col-container">
+						<label class="option-label" for="background-color">Background Color</label>
+						<input id="background-color" class="option-input" name="bgColor" type="color">
+					</div>
+
+					<div class="fg-bg-col-container">
+						<label class="option-label" for="text-color">Text Color</label>
+						<input id="text-color" class="option-input" name="fgColor" type="color">
+					</div>
+				</section>
+
+				<input id="save-options" type="button" value="Save">
+
+			</form>
+		</section>
+
+		<section id="track">
+			<annotations-track id="annotations-track" data-video-id="vid" data-pps="30" data-item-spacing="52">
+			</annotations-track>
+		</section>
+
+	</main>
+
+	<script type="text/javascript" src="annotationlib/dist/AnnotationParser.js"></script>
+	<script type="text/javascript" src="annotationlib/dist/AnnotationRenderer.js"></script>
+
+	<script type="text/javascript" src="js/prop_editor.js"></script>
+	<script type="text/javascript" src="js/timeline.js"></script>
+	<script type="text/javascript" src="js/annotations_track.js"></script>
+	<script type="text/javascript" src="js/index.js"></script>
+	<script type="text/javascript">
+		const track = document.getElementById("annotations-track");
+		// track.addAnnotation("speech", "annotation 1", 6);
+		// track.addAnnotation("speech", "annotation 2", 9);
+	</script>
+</body>
+</html>
