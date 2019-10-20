@@ -1,6 +1,6 @@
 # annotations-editor
 
-![Screenshot](https://github.com/afrmtbl/annotations-editor/blob/master/screenshot.jpg)**
+![Screenshot](https://github.com/afrmtbl/annotations-editor/blob/master/screenshot.jpg)
 
 ### Beware!
 
