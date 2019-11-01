@@ -60,6 +60,7 @@ class AnnotationsTrack extends HTMLElement {
 	}
 	setEditor(editor) {
 		this.editor = editor;
+		this.editor.annotationsTrack = this;
 	}
 
 	addTimeline() {
@@ -115,6 +116,10 @@ class AnnotationsTrack extends HTMLElement {
 	}
 
 	createAnnotationsFromRenderer() {
+
+		while (this.annotationsContainer.firstChild) {
+			this.annotationsContainer.firstChild.remove();
+		}
 
 		const annotations = this.renderer.annotations.map(el => {
 			el.data["_element"] = el;

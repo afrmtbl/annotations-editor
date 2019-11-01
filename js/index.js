@@ -10,7 +10,6 @@ const annotations = parser.parseYoutubeAnnotationList(annotationElements);
 const videoContainer = document.getElementById("vid-cont");
 
 const optionsForm = document.getElementById("options-form");
-const propsEditor = new PropEditor(optionsForm, parser);
 
 const video = document.getElementById("vid");
 const renderer = new AnnotationRenderer(annotations, videoContainer, {
@@ -29,9 +28,11 @@ const renderer = new AnnotationRenderer(annotations, videoContainer, {
 });
 renderer.start();
 
-window.addEventListener("resize", e => {
-    renderer.updateAllAnnotationSizes();
-});
+const propsEditor = new PropEditor(optionsForm, parser, renderer);
+
+// window.addEventListener("resize", e => {
+//     renderer.updateAllAnnotationSizes();
+// });
 
 function sortAnnotationsByStartTime(annotations) {
     return annotations.sort((a, b) => {

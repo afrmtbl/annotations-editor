@@ -1,6 +1,6 @@
 class PropEditor extends HTMLElement {
 
-	constructor(editorElement, annotationParser) {
+	constructor(editorElement, annotationParser, annotationRenderer) {
 
 		super();
 
@@ -11,6 +11,7 @@ class PropEditor extends HTMLElement {
 
 		this.editorElement = editorElement;
 		this.annotationParser = annotationParser;
+		this.annotationRenderer = annotationRenderer;
 
 		this.annotationCodeInput = document.getElementById("annotation-code");
 		this.annotationTypeInput = document.getElementById("annotation-type");
@@ -107,6 +108,16 @@ class PropEditor extends HTMLElement {
 		}
 
 		this.saveButton = document.getElementById("save-options");
+		this.saveButton.addEventListener("click", e => {
+			console.log("yoga", this.currentAnnotationData.timeStart, this._annotationData.timeStart);
+			for (const prop in this._annotationData) {
+				if (prop !== "_element") {
+					this.currentAnnotationData[prop] = this._annotationData[prop];
+				}
+			}
+			this.annotationsTrack.createAnnotationsFromRenderer();
+			this.annotationRenderer.updateAllAnnotationSizes();
+		});
 	}
 
 	setAnnotationProperty(prop, value) {
@@ -160,6 +171,7 @@ class PropEditor extends HTMLElement {
 
 	loadAnnotation(annotationData) {
 		this.annotationCode = this.annotationParser.serializeAnnotation(annotationData);
+		this.currentAnnotationData = annotationData;
 		this._annotationData = {};
 
 		this.annotationTextInput.value = "";
@@ -168,7 +180,9 @@ class PropEditor extends HTMLElement {
 		this.textColorInput.value = "#ffffff";
 
 		for (const prop in annotationData) {
-			this.setAnnotationProperty(prop, annotationData[prop])
+			if (prop !== "_element") {
+				this.setAnnotationProperty(prop, annotationData[prop])
+			}
 		}
 	}
 
@@ -206,26 +220,28 @@ class PropEditor extends HTMLElement {
 			throw new Error(`Invalid annotation time start: ${seconds}`);
 		}
 		const timeEnd = this.durationToSeconds(this.annotationTimeEnd);
-		if (seconds >= timeEnd) {
-			const errorMessage = `The time that the annotation starts cannot be greater than or equal to the time it ends (${seconds}s to ${timeEnd}s)`;
-			this.annotationTimeStartInput.setCustomValidity(errorMessage);
-			throw new Error(errorMessage);
-		}
-		this.annotationTimeStartInput.setCustomValidity("");
 		this.annotationTimeStartInput.value = this.formatSeconds(seconds);
+		// if (seconds >= timeEnd) {
+		// 	const errorMessage = `The time that the annotation starts cannot be greater than or equal to the time it ends (${seconds}s to ${timeEnd}s)`;
+		// 	this.annotationTimeStartInput.setCustomValidity(errorMessage);
+		// 	throw new Error(errorMessage);
+		// }
+		this.annotationTimeStartInput.setCustomValidity("");
+		// this.annotationTimeStartInput.value = this.formatSeconds(seconds);
 	}
 	set annotationTimeEnd(seconds) {
 		if (typeof seconds !== "number" || isNaN(seconds)) {
 			throw new Error(`Invalid annotation time end: ${seconds}`);
 		}
 		const timeStart = this.durationToSeconds(this.annotationTimeStart);
-		if (seconds <= timeStart) {
-			const errorMessage = `The time that the annotation ends cannot be less than or equal to the time it starts (${timeStart}s to ${seconds}s)`;
-			this.annotationTimeEndInput.setCustomValidity(errorMessage);
-			throw new Error(errorMessage);
-		}
-		this.annotationTimeEndInput.setCustomValidity("");
 		this.annotationTimeEndInput.value = this.formatSeconds(seconds);
+		// if (seconds <= timeStart) {
+		// 	const errorMessage = `The time that the annotation ends cannot be less than or equal to the time it starts (${timeStart}s to ${seconds}s)`;
+		// 	this.annotationTimeEndInput.setCustomValidity(errorMessage);
+		// 	throw new Error(errorMessage);
+		// }
+		this.annotationTimeEndInput.setCustomValidity("");
+		// this.annotationTimeEndInput.value = this.formatSeconds(seconds);
 	}
 	set annotationXPos(percent) {
 		if (typeof percent !== "number" || isNaN(percent) || percent < 0 || percent > 100) {

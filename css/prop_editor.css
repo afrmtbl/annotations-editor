@@ -40,6 +40,8 @@ form {
 	border-radius: 5px;
 	border: 1px solid lightgray;
 	box-sizing: border-box;
+
+	background-color: white;
 }
 
 #annotation-size {

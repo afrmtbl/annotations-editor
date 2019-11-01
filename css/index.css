@@ -147,7 +147,7 @@ track-item {
 	border: 1px solid #dddddd;
 	background-color: white;
 
-	resize: horizontal;
+	/*resize: horizontal;*/
 	cursor: pointer;
 	box-sizing: border-box;
 }
